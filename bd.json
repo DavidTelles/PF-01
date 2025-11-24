@@ -1,0 +1,38 @@
+{
+    "name_square": "Pracinha do JK",
+    "bikes_points": [
+        {"id": 1, "point": "A", "bikes":[
+            {"id": 1, "type": "basic", "value": 20.0},
+            {"id": 2, "type": "basic", "value": 20.0},
+            {"id": 3, "type": "advanced", "value": 35.0},
+            {"id": 4, "type": "professional", "value": 40.0}
+        ]},
+        {"id": 2, "point": "B", "bikes":[
+            {"id": 5, "type": "basic", "value": 20.0},
+            {"id": 6, "type": "advanced", "value": 35.0},
+            {"id": 7, "type": "advanced", "value": 35.0},
+            {"id": 8, "type": "professional", "value": 40.0}
+        ]},
+        {"id": 3, "point": "C", "bikes":[
+            {"id": 9, "type": "basic", "value": 20.0},
+            {"id": 10, "type": "advanced", "value": 35.0},
+            {"id": 11, "type": "professional", "value": 40.0},
+            {"id": 12, "type": "professional", "value": 40.0}
+        ]}
+    ],
+    "users": [
+        {"id":1, "name": "David", "studant": true},
+        {"id":2, "name": "Biston", "studant": false},
+        {"id":3, "name": "Luis", "studant": true}
+    ],
+    "runs": [
+        {   
+            "id_user": 1,
+            "id_bike": 4,
+            "start_point": "A",
+            "final_point": "C",
+            "start": "24/11/2025 15:36:00",
+            "duraçao": "03:54:22"
+        }
+    ]
+}

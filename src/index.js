@@ -1,5 +1,48 @@
 const prompt = require('prompt-sync')();
 
+
+function loadDB() {
+    try{
+        const raw = fs.readFileSync("./bd.json", 'utf8');
+        return JSON.parse(raw)
+    } catch(err) {
+        console.error('Erro ao ler bd.json:', err.message);
+        return {
+            name_square: '',
+            bikes_points: [],
+            users: [],
+            runs: [] 
+        }
+    }
+}
+
+function saveDB(db) {
+    try {
+        fs.writeFileSync(dbPath, JSON.stringify(db, null, 4), 'utf8');
+        return true;
+    } catch (err) {
+        console.error('Erro ao salvar db.json', err.message);
+        return false;
+    }
+}
+
+function getNextId(name) {
+    const db = loadDB();
+
+    const values = db.name || [];
+
+    let maxId = 0;
+    for(let i = 0; i < usuarios.length; i++){
+        const u = usuarios[i];
+        if(typeof u.id === 'number' && u.id > maxId) {
+            maxId = u.id;
+        }
+    }
+    const newId = maxId !== 0 ? maxId + 1 : 1; // if ternário
+    // variável = condição (true ou false) ? valor se verdadeiro : valor se falso
+}
+
+
 var i = 0;
 
 var cash = 0;
