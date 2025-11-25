@@ -1,5 +1,7 @@
 const prompt = require('prompt-sync')();
+const fs = require('fs');
 
+/*
 
 function loadDB() {
     try{
@@ -42,25 +44,74 @@ function getNextId(name) {
     // variável = condição (true ou false) ? valor se verdadeiro : valor se falso
 }
 
+function getUserByEmail(email) {
+    const db = loadDB();
+    const users = db.users || [];
+
+    for(let i = 0; i < users.length; i++) {
+        const u = users[i];
+        if(u.email === email) {
+            return u;
+        }
+    }
+    return null;
+}
+
+*/
 
 var i = 0;
 
 var cash = 0;
-var list = [];
+var rents = [];
+var availibleBikes = [
+    {
+        "bikes_points": [
+        {"id": 1, "point": "A", "bikes":[
+            {"id": 1, "type": "basic", "value": 20.0},
+            {"id": 2, "type": "basic", "value": 20.0},
+            {"id": 3, "type": "advanced", "value": 35.0},
+            {"id": 4, "type": "professional", "value": 40.0}
+        ]},
+        {"id": 2, "point": "B", "bikes":[
+            {"id": 5, "type": "basic", "value": 20.0},
+            {"id": 6, "type": "advanced", "value": 35.0},
+            {"id": 7, "type": "advanced", "value": 35.0},
+            {"id": 8, "type": "professional", "value": 40.0}
+        ]},
+        {"id": 3, "point": "C", "bikes":[
+            {"id": 9, "type": "basic", "value": 20.0},
+            {"id": 10, "type": "advanced", "value": 35.0},
+            {"id": 11, "type": "professional", "value": 40.0},
+            {"id": 12, "type": "professional", "value": 40.0}
+        ]}
+    ],
+    }
+]
+var availibleScooters = [
+    {
+        "scooters_points": [
+        {"id": 1, "point": "A", "scooters":[
+            {"id": 13, "type": "basic", "value": 20.0},
+            {"id": 14, "type": "basic", "value": 20.0},
+            {"id": 15, "type": "advanced", "value": 40.0},
+            {"id": 16, "type": "professional", "value": 50.0}
+        ]},
+        {"id": 2, "point": "B", "scooters":[
+            {"id": 17, "type": "basic", "value": 20.0},
+            {"id": 18, "type": "advanced", "value": 40.0},
+            {"id": 19, "type": "advanced", "value": 40.0},
+            {"id": 20, "type": "professional", "value": 50.0}
+        ]},
+        {"id": 3, "point": "C", "scooters":[
+            {"id": 21, "type": "basic", "value": 20.0},
+            {"id": 22, "type": "advanced", "value": 40.0},
+            {"id": 23, "type": "professional", "value": 50.0},
+            {"id": 24, "type": "professional", "value": 50.0}
+        ]}
+    ],
+    }
+]
 var nike = prompt(`Seu Usuário -> `);
-
-while(true) { // Verifica se há ou não carterinha de estudante
-    var studant = prompt("Você tem carterinha de estudante? s/n -> ").toLowerCase();
-    if(studant == "s") {
-        studant = true;
-        break;
-    } else if (studant == "n") {
-        studant = false;
-        break
-    } else {
-        console.log("Resposta inválida! Responda com 's' ou 'n'");
-    };
-};
 
 function singUp() { // Criar Conta
         while(true) {
@@ -102,7 +153,6 @@ function singUp() { // Criar Conta
 };
 
 function main() { // Menu Principal
-    if(studant == true) {
         let first = Number(prompt(`
             =====================
             Olá ${nike}! Seu cash é: ${cash}
@@ -116,7 +166,7 @@ function main() { // Menu Principal
             `)); 
             
             if (first == 1) {
-                rentLitle();
+                rent();
             } else if(first == 2) {
                 vehicle();
             } else if (first == 3) {
@@ -128,32 +178,6 @@ function main() { // Menu Principal
             } else {
                 console.log("Digite um número entre 0 e 4");
             };
-    
-    } else if (studant == false) {
-        let first = Number(prompt(`
-        =====================
-        Ola ${nike}! Seu cash é: ${cash}
-
-        1 - Alugar Veículo
-        2 - Ver Veículos Alugados
-        3 - Depositar Dinheiro
-        4 - Retirar Dinheiro
-
-        0 - Sair
-        `))  
-        
-        if (first == 1) {
-            rent()
-        } else if(first == 2) {
-            vehicle();
-        } else if(first == 3) {
-            deposit();
-        } else if(first == 4) {
-            toRemove();
-        } else if (first == 0) {
-            i++;
-        };
-    }
 };
 
 function rent() { // Menu de Alugar
@@ -177,94 +201,76 @@ function rent() { // Menu de Alugar
 
 };
 
-function rentLitle() { // Menu de Alugar para estudante
-    let first = Number(prompt(`
-        =====================
-        Ola ${nike}! Seu cash é: ${cash}
-
-        1 - Bicicletas
-        2 - Patinetes
-
-        0 - Voltar
-        `))  
-        
-        if (first == 1) {
-            rentBikeLitle()
-        } else if(first == 2) {
-            rentScooLitle();
-        } else if (first == 0) {
-            mainLitle();
-        };
-};
-
 function rentBike() { // Menu de alugar Bicicletas
-    console.log(`
-        Os Modelos de Bikes são:
-        1 - Simple bike - 20/h
-        2 - Advanced bike - 35/h
-        3 - Professional bike - 40/h
-
-        0 - Voltar
-
-        `);
-    let bike = Number(prompt('Adicione o modelo da bike: '));
-    let time = Number(prompt('Adicione quanto tempo deseja: '));
+    console.log(availibleBikes[0].bikes_points);
+    let bike = Number(prompt('Adicione o id do point que deseja: '));
     let value = 0;
     if (bike == 1) {
-        value = 20;
+        console.log(availibleBikes[0].bikes_points[0].bikes);
+        model = Number(prompt('Adicione o modelo da bike: '));
+        if (model == 1 || model == 2) {
+            value = 20;
+        } else if (model == 3) {
+            value = 35;
+        } else if (model == 4) {
+            value = 40;
+        } else {
+            console.log("Modelo inválido");
+        }
     } else if(bike == 2) {
-        value = 35;
+        console.log(availibleBikes[0].bikes_points[1].bikes);
+        model = Number(prompt('Adicione o modelo da bike: '));
+        if (model == 5) {
+            value = 20;
+        } else if (model == 6 || model ==7) {
+            value = 35;
+        } else if (model == 8) {
+            value = 40;
+        } else {
+            console.log("Modelo inválido");
+        }
     } else if(bike == 3) {
-        value = 40;
+        console.log(availibleBikes[0].bikes_points[2].bikes);
+        model = Number(prompt('Adicione o modelo da bike: '));
+        if (model == 9) {
+            value = 20;
+        } else if (model == 10) {
+            value = 35;
+        } else if (model == 11 || model == 12) {
+            value = 40;
+        } else {
+            console.log("Modelo inválido");
+        }
     } else if (bike == 0) {
         main();
     };
-    if (cash >= (value*time)){
-        cash = cash - (value*time);
-        if (bike == 1) {
-            list.push('Simple bike');
-        } else if(bike == 2) {
-            list.push('Advanced bike');
-        } else if(bike == 3) {
-            list.push('Professional bike');
-        };
-        console.log(`Sua bike foi alugada com sucesso. O valor foi... ${(value*time)}`);
-    } else if (cash < (value*time)) {
-        console.log("Saldo insuficiente");
-        deposit();
-    };
-};
-
-function rentBikeLitle() { // Menu de alugar Bicicletas para estudante
-    console.log(`
-        Os Modelos de Bikes são:
-        1 - Simple bike - 10/h
-        2 - Advanced bike - 13/h
-        3 - Professional bike - 20/h
-
-        0 - Voltar
-
-        `);
-    let bike = Number(prompt('Adicione o modelo da bike: '));
     let time = Number(prompt('Adicione quanto tempo deseja: '));
-    let value = 0;
-    if (bike == 1) {
-        value = 10;
-    } else if(bike == 2) {
-        value = 13;
-    } else if(bike == 3) {
-        value = 20;
-    } else if (bike == 0) {
-        main();
-    };
     if (cash >= (value*time)){
         cash = cash - (value*time);
-        if (bike == 1) {
-            list.push('Simple bike');
-        } else if(bike == 2) {
-            list.push('Advanced bike');
-        } else if(bike == 3) {
-            list.push('Professional bike');
+        if (model == 1) {
+            rents.push('Basic bike');
+        } else if(model == 2) {
+            rents.push('Basic bike');
+        } else if(model == 3) {
+            rents.push('Advanced bike');
+        } else if(model == 4) {
+            rents.push('Professional bike');
+        } else if(model == 5) {
+            rents.push('Basic bike');
+        } else if(model == 6) {
+            rents.push('Advanced bike');
+        } else if(model == 7) {
+            rents.push('Advanced bike');
+        } else if(model == 8) {
+            rents.push('Professional bike');
+        } else if(model == 9) {
+            rents.push('Basic bike');
+        } else if(model == 10) {
+            rents.push('Advanced bike');
+        } else if(model == 11) {
+            rents.push('Professional bike');
+        } else if(model == 12) {
+            rents.push('Professional bike');
         };
         console.log(`Sua bike foi alugada com sucesso. O valor foi... ${(value*time)}`);
     } else if (cash < (value*time)) {
@@ -274,89 +280,91 @@ function rentBikeLitle() { // Menu de alugar Bicicletas para estudante
 };
 
 function rentScoo() { // Menu de alugar Patinetes
-    console.log(`
-        Os modelos de patinete são:
-        1 - Patinete simples - 20/h
-        2 - Patinete avançado - 40/h
-        3 - Patinete profissional - 50/h
-
-        0 - Voltar
-
-        `);
-    let scooter = Number(prompt('Adicione o modelo do patinete: '));
-    let time = Number(prompt('Adicione o tempo que deseja: '));
+    console.log(availibleScooters[0].bikes_points);
+    let scooter = Number(prompt('Adicione o id do point que deseja: '));
     let value = 0;
     if (scooter == 1) {
-        value = 20;
+        console.log(availibleScooters[0].scooters_points[0].scooters);
+        model = Number(prompt('Adicione o modelo de patinete: '));
+        if (model == 13 || model == 14) {
+            value = 20;
+        } else if (model == 15) {
+            value = 35;
+        } else if (model == 16) {
+            value = 40;
+        } else {
+            console.log("Modelo inválido");
+        }
     } else if(scooter == 2) {
-        value = 40;
-    } else if(scooter == 3) {
-        value = 50;
-    } else if (scooter == 0) {
+        console.log(availibleScooters[0].scooters_points[1].scooters);
+        model = Number(prompt('Adicione o modelo de patinete: '));
+        if (model == 17) {
+            value = 20;
+        } else if (model == 18 || model == 19) {
+            value = 35;
+        } else if (model == 20) {
+            value = 40;
+        } else {
+            console.log("Modelo inválido");
+        }
+    } else if(bike == 3) {
+        console.log(availibleScooters[0].scooters_points[2].scooters);
+        model = Number(prompt('Adicione o modelo de patinete: '));
+        if (model == 21) {
+            value = 20;
+        } else if (model == 22) {
+            value = 35;
+        } else if (model == 23 || model == 24) {
+            value = 40;
+        } else {
+            console.log("Modelo inválido");
+        }
+    } else if (bike == 0) {
         main();
     };
+    let time = Number(prompt('Adicione quanto tempo deseja: '));
     if (cash >= (value*time)){
         cash = cash - (value*time);
-        if (scooter == 1) {
-            list.push('Patinete simples');
-        } else if(scooter == 2) {
-            list.push('Patinete avançado');
-        } else if (scooter == 3) {
-            list.push('Patinete profissional');
+        if (model == 1) {
+            rents.push('Basic scooter');
+        } else if(model == 2) {
+            rents.push('Basic scooter');
+        } else if(model == 3) {
+            rents.push('Advanced scooter');
+        } else if(model == 4) {
+            rents.push('Professional scooter');
+        } else if(model == 5) {
+            rents.push('Basic scooter');
+        } else if(model == 6) {
+            rents.push('Advanced scooter');
+        } else if(model == 7) {
+            rents.push('Advanced scooter');
+        } else if(model == 8) {
+            rents.push('Professional scooter');
+        } else if(model == 9) {
+            rents.push('Basic scooter');
+        } else if(model == 10) {
+            rents.push('Advanced scooter');
+        } else if(model == 11) {
+            rents.push('Professional scooter');
+        } else if(model == 12) {
+            rents.push('Professional scooter');
         };
-        console.log(`Seu patinete foi alugado com sucesso. O valor foi... ${(value*time)}`);
+        console.log(`Seu patinete foi alugada com sucesso. O valor foi... ${(value*time)}`);
     } else if (cash < (value*time)) {
-        console.log("Insufficient cash");
+        console.log("Saldo insuficiente");
         deposit();
-    }
-};
-
-function rentScooLitle() { // Menu de alugar Patinetes para estudante
-    console.log(`
-        Os modelos de patinete são:
-        1 - Patinete simples - 10/h
-        2 - Patinete avançado - 20/h
-        3 - Patinete profissional - 25/h
-
-        0 - Voltar
-
-        `);
-    let scooter = Number(prompt('Adicione o modelo do patinete: '));
-    let time = Number(prompt('Adicione o tempo que deseja: '));
-    let value = 0;
-    if (scooter == 1) {
-        value = 10;
-    } else if(scooter == 2) {
-        value = 20;
-    } else if(scooter == 3) {
-        value = 25;
-    } else if (scooter == 0) {
-        main();
     };
-    if (cash >= (value*time)){
-        cash = cash - (value*time);
-        if (scooter == 1) {
-            list.push('Patinete simples');
-        } else if(scooter == 2) {
-            list.push('Patinete avançado');
-        } else if (scooter = 3) {
-            list.push('Patinete profissional');
-        };
-        console.log(`Seu patinete foi alugado com sucesso. O valor foi... ${(value*time)}`);
-    } else if (cash < (value*time)) {
-        console.log("Insufficient cash");
-        deposit();
-    }
 };
 
 function vehicle() { // Menu de ver veiculos Alugados
-    console.log(list)
+    console.log(rents)
     let remove = prompt('Você deseja remover algum veiculo? s/n: ');
     if (remove.toLowerCase() == 's') {
         console.clear();
-        console.log(list);
+        console.log(rents);
         let i = Number(prompt('Diga a posição do veiculo: '));
-        list.splice(i - 1, 1);
+        rents.splice(i - 1, 1);
         console.log('Veiculo removido');
     } else if (remove.toLowerCase() == 'n') {
         console.log('Ok...');
