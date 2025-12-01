@@ -1,38 +1,109 @@
 {
-    "name_square": "Pracinha do JK",
-    "bikes_points": [
-        {"id": 1, "point": "A", "bikes":[
-            {"id": 1, "type": "basic", "value": 20.0},
-            {"id": 2, "type": "basic", "value": 20.0},
-            {"id": 3, "type": "advanced", "value": 35.0},
-            {"id": 4, "type": "professional", "value": 40.0}
-        ]},
-        {"id": 2, "point": "B", "bikes":[
-            {"id": 5, "type": "basic", "value": 20.0},
-            {"id": 6, "type": "advanced", "value": 35.0},
-            {"id": 7, "type": "advanced", "value": 35.0},
-            {"id": 8, "type": "professional", "value": 40.0}
-        ]},
-        {"id": 3, "point": "C", "bikes":[
-            {"id": 9, "type": "basic", "value": 20.0},
-            {"id": 10, "type": "advanced", "value": 35.0},
-            {"id": 11, "type": "professional", "value": 40.0},
-            {"id": 12, "type": "professional", "value": 40.0}
-        ]}
-    ],
     "users": [
-        {"id":1, "name": "David", "studant": true},
-        {"id":2, "name": "Biston", "studant": false},
-        {"id":3, "name": "Luis", "studant": true}
+        {
+            "id": 1,
+            "user": "Admin",
+            "email": "davidsilvatelles2023@gmail.com",
+            "cpf": "50131938851"
+        }
     ],
-    "runs": [
-        {   
-            "id_user": 1,
-            "id_bike": 4,
-            "start_point": "A",
-            "final_point": "C",
-            "start": "24/11/2025 15:36:00",
-            "duraçao": "03:54:22"
+
+    "veichles": [
+        {
+            "id": 1,
+            "type": "bike",
+            "model": "basica",
+            "eletric": false
+        },
+        {
+            "id": 2,
+            "type": "bike",
+            "model": "basica",
+            "eletric": false
+        },
+        {
+            "id": 3,
+            "type": "bike",
+            "model": "avançada",
+            "eletric": false
+        },
+        {
+            "id": 4,
+            "type": "bike",
+            "model": "profissional",
+            "eletric": false
+        },
+        {
+            "id": 5,
+            "type": "bike",
+            "model": "basica",
+            "eletric": true
+        },
+        {
+            "id": 6,
+            "type": "bike",
+            "model": "basica",
+            "eletric": true
+        },
+        {
+            "id": 7,
+            "type": "bike",
+            "model": "avançada",
+            "eletric": true
+        },
+        {
+            "id": 8,
+            "type": "bike",
+            "model": "profissional",
+            "eletric": true
+        },
+        {
+            "id": 1,
+            "type": "scooter",
+            "model": "basica",
+            "eletric": false
+        },
+        {
+            "id": 2,
+            "type": "scooter",
+            "model": "basica",
+            "eletric": false
+        },
+        {
+            "id": 3,
+            "type": "scooter",
+            "model": "avançada",
+            "eletric": false
+        },
+        {
+            "id": 4,
+            "type": "scooter",
+            "model": "profissional",
+            "eletric": false
+        },
+        {
+            "id": 5,
+            "type": "scooter",
+            "model": "basica",
+            "eletric": true
+        },
+        {
+            "id": 6,
+            "type": "scooter",
+            "model": "basica",
+            "eletric": true
+        },
+        {
+            "id": 7,
+            "type": "scooter",
+            "model": "avançada",
+            "eletric": true
+        },
+        {
+            "id": 8,
+            "type": "scooter",
+            "model": "profissional",
+            "eletric": true
         }
     ]
 }
