@@ -4,106 +4,139 @@
             "id": 1,
             "user": "Admin",
             "email": "davidsilvatelles2023@gmail.com",
-            "cpf": "50131938851"
+            "password": "20111986@"
+        },
+        {
+            "id": 2,
+            "user": "Caio",
+            "email": "caio@gmail.com",
+            "password": "123456789"
+        },
+        {
+            "id": 3,
+            "user": "Luis",
+            "email": "luis@gmail.com",
+            "password": "123456789"
+        },
+        {
+            "id": 4,
+            "user": "biro",
+            "email": "biel49412@gmail.com",
+            "password": "gabriel12"
         }
     ],
-
     "veichles": [
         {
             "id": 1,
             "type": "bike",
             "model": "basica",
-            "eletric": false
+            "eletric": false,
+            "status": true
         },
         {
             "id": 2,
             "type": "bike",
             "model": "basica",
-            "eletric": false
+            "eletric": false,
+            "status": false
         },
         {
             "id": 3,
             "type": "bike",
             "model": "avançada",
-            "eletric": false
+            "eletric": false,
+            "status": false
         },
         {
             "id": 4,
             "type": "bike",
             "model": "profissional",
-            "eletric": false
+            "eletric": false,
+            "status": true
         },
         {
             "id": 5,
             "type": "bike",
             "model": "basica",
-            "eletric": true
+            "eletric": true,
+            "status": true
         },
         {
             "id": 6,
             "type": "bike",
             "model": "basica",
-            "eletric": true
+            "eletric": true,
+            "status": true
         },
         {
             "id": 7,
             "type": "bike",
             "model": "avançada",
-            "eletric": true
+            "eletric": true,
+            "status": false
         },
         {
             "id": 8,
             "type": "bike",
             "model": "profissional",
-            "eletric": true
+            "eletric": true,
+            "status": false
         },
         {
-            "id": 1,
+            "id": 9,
             "type": "scooter",
             "model": "basica",
-            "eletric": false
+            "eletric": false,
+            "status": true
         },
         {
-            "id": 2,
+            "id": 10,
             "type": "scooter",
             "model": "basica",
-            "eletric": false
+            "eletric": false,
+            "status": true
         },
         {
-            "id": 3,
+            "id": 11,
             "type": "scooter",
             "model": "avançada",
-            "eletric": false
+            "eletric": false,
+            "status": true
         },
         {
-            "id": 4,
+            "id": 12,
             "type": "scooter",
             "model": "profissional",
-            "eletric": false
+            "eletric": false,
+            "status": true
         },
         {
-            "id": 5,
+            "id": 13,
             "type": "scooter",
             "model": "basica",
-            "eletric": true
+            "eletric": true,
+            "status": true
         },
         {
-            "id": 6,
+            "id": 14,
             "type": "scooter",
             "model": "basica",
-            "eletric": true
+            "eletric": true,
+            "status": true
         },
         {
-            "id": 7,
+            "id": 15,
             "type": "scooter",
             "model": "avançada",
-            "eletric": true
+            "eletric": true,
+            "status": true
         },
         {
-            "id": 8,
+            "id": 16,
             "type": "scooter",
             "model": "profissional",
-            "eletric": true
+            "eletric": true,
+            "status": true
         }
     ]
 }

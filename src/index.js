@@ -1,9 +1,9 @@
 const prompt = require('prompt-sync')();
+const { sign } = require('crypto');
 const fs = require('fs');
 
 const dbPath = "../bd.json";
 
-// ----- Carregar DB -----
 function loadDB() {
     try {
         const raw = fs.readFileSync(dbPath, 'utf8');
@@ -16,7 +16,6 @@ function loadDB() {
     }
 }
 
-// ----- Salvar DB -----
 function saveDB(db) {
     try {
         fs.writeFileSync(dbPath, JSON.stringify(db, null, 4), "utf8");
@@ -27,7 +26,6 @@ function saveDB(db) {
     }
 }
 
-// ----- Gerar novo ID -----
 function getNextId(collectionName) {
     const db = loadDB();
     const values = db[collectionName] || [];
@@ -43,33 +41,100 @@ function getNextId(collectionName) {
     return maxId + 1;
 }
 
-function addUser(user, email, cpf) {
+function addUser(user, email, password) {
     const db = loadDB();
+
+    if(userExists(email, password)) {
+        console.log("Usuário ja existe!");
+        return false;
+    }
 
     user = {
         id: getNextId("users"),
         user: user,
         email: email,
-        cpf: cpf
+        password: password
     }
 
     db.users.push(user)
     saveDB(db)
 
-    console.log("Criando usuário: ", user)
-    return user;
+    console.log("Usuário criado!")
 }
 
-function removeVeichle(id) {
+function userExists(email, password) {
+    const db = loadDB();
+    const users = db.users || [];
+
+    for (let i = 0; i < users.length; i++) {
+        const u = users[i];
+
+        if(u.email === email || u.password === password) {
+            return true;
+        } 
+    }
+
+    return false
+}
+
+function findUserByEmail(email) {
+    const db = loadDB();
+    const users = db.users || [];
+
+    for (let i = 0; i < users.length; i++) {
+        const u = users[i];
+
+        if (u.email === email) {
+            return u;
+        }
+    }
+
+    return null;
+}
+
+function updateVeichle(id, newData) {
     const db = loadDB();
 
-    const index = db.vehicles.findIndex
+    db.veichles = db.veichles || [];
+
+    const index = db.veichles[id]["status"]  = false;
+
+    if (index === -1) {
+        console.error("Veículo não encontrado com id:", id);
+        return false;
+    }
+
+    db.veichles[index] = {
+        ...db.veichles[index],
+        ...newData
+    };
+
+    saveDB(db);
+
+    console.log("Veículo atualizado");
 }
+
+function veiculoDisponivel(id) {
+    const db = loadDB();
+
+    db.veichles = db.veichles || [];
+
+    const index = db.veichles.findIndex(v => v.id === id);
+
+    if (index === -1) {
+        console.error("Veículo não encontrado com id:", id);
+        return false;
+    }
+
+    return db.veichles[index].status;
+}
+
 
 var i = 0;
 
 var cash = 0;
 var rents = [];
+var acount = false
 
 var nike = prompt(`Seu Usuário -> `);
 
@@ -87,17 +152,19 @@ function singUp() {
             console.log("E-Mail incorreto!");
             continue;
         }
+
+        if (email)
     
         console.clear();
         break;
     }
     
     while(true) {
-        var cpf = prompt("Seu CPF -> ");
-        var confirmCpf = prompt("Confirme Seu CPF -> ");
+        var password = prompt("Sua Senha -> ");
+        var confirmPassword = prompt("Confirme Sua Senha -> ");
     
-        if (cpf !== confirmCpf) {
-            console.log("CPF Incorreto!");
+        if (password !== confirmPassword) {
+            console.log("Senha Incorreta!");
             continue;
         }
     
@@ -106,46 +173,102 @@ function singUp() {
     
     }
 
-    addUser(nike, email, cpf)
+    if (userExists(email, password)) {
+        console.log("Já existe um usuário com esse e-mail ou password. Por favor, use outro.");
+        return;
+    }
+
+    addUser(nike, email, password)
+    saveDB()
+    acount = true;
+
+    main()
 }
 
+function singIn() {
+    while(true) {
+        var email = prompt("Seu E-mail -> ");
+    
+        const user = findUserByEmail(email);
+
+        if(user == null) {
+            console.clear()
+            console.log("Email não encontrado!")
+            singUp()
+            break;
+        } else {
+            let password = prompt("Sua senha -> ")
+            if(password === user.password) {
+                console.clear()
+                console.log("Logado!")
+                acount = true
+                main()
+                break;
+            } else {
+                console.clear()
+                console.log("Senha incorreta!")
+                main()
+                break;
+            }
+        }
+}
+}
+
+
 function main() { // Menu Principal
+    if(acount == true) {
+        let first = Number(prompt(`
+                =====================
+                Olá ${nike}! Seu cash é: ${cash}
+        
+                1 - Alugar veiculo
+                2 - Ver veiculos alugados
+                3 - Adicionar cash
+                4 - Retirar cash
+                5 - Ver Dados
+        
+                0 - Sair
+            `)); 
+                
+            if (first == 1) {
+                    rent();
+            } else if(first == 2) {
+                    vehicle();
+            } else if (first == 3) {
+                    deposit();
+            } else if (first == 4) {
+                    toRemove();
+            } else if (first == 5) {
+                    console.clear();
+                    console.log(`Usuário: ${nike}\nCash: ${cash}\nVeículos Alugados: ${rents}`);
+            } else if(first == 0) {
+                    i++;
+            }else {
+                    console.log("Digite um número entre 0 e 4");
+            };
+    } else {
         let first = Number(prompt(`
             =====================
-            Olá ${nike}! Seu cash é: ${cash}
+            Olá ${nike}!
     
-            1 - Alugar veiculo
-            2 - Ver veiculos alugados
-            3 - Adicionar cash
-            4 - Retirar cash
-            5 - Ver Dados
+            1 - Criar conta
+            2 - Entrar
     
             0 - Sair
             `)); 
             
             if (first == 1) {
-                rent();
+                console.clear()
+                singUp();
             } else if(first == 2) {
-                vehicle();
-            } else if (first == 3) {
-                deposit();
-            } else if (first == 4) {
-                toRemove();
-            } else if (first == 5) {
-                console.clear();
-                console.log(`
-        =========================
-
-            Nome -> ${nike}
-            CPF -> ${cpf}
-            E-mail -> ${email}
-            
-        =========================`)
-            } else if(first == 0) {
+                console.clear()
+                singIn();
+            }else if(first == 0) {
                 i++;
             }else {
-                console.log("Digite um número entre 0 e 4");
+                console.log("Digite um número entre 0 e 2");
             };
+    }
 };
 
 function rent() { // Menu de Alugar
@@ -185,46 +308,64 @@ function rentBike() { // Menu de alugar Bicicletas
            
         ========================================= `);
     model = Number(prompt('Adicione o modelo da bike -> '));
-    if (model == 1 || model == 2) {
-        value = 20;
-    } else if (model == 3) {
-        value = 35;
-    } else if (model == 4) {
-        value = 40;
-    } else if (model == 5 || 6) {
-        value = 30;
-    } else if (model == 7) {
-        value = 45;
-    } else if (model == 8) {
-        value = 50;
+    let disponivel = veiculoDisponivel(model);
+    if(!disponivel) {
+        console.log("Veículo indisponível no momento.");
+        return;
     } else {
-        console.log("Modelo inválido");
-    }
-    let time = Number(prompt('Adicione quanto tempo deseja: '));
-    if (cash >= (value*time)){
-        cash = cash - (value*time);
         if (model == 1 || model == 2) {
-            rents.push('Bicicleta Básica');
-        } else if(model == 3) {
-            rents.push('Bicicleta Avançada');
-        } else if(model == 4) {
-            rents.push('Bicicleta Profissional');
-        } else if(model == 5 || model == 6) {
-            rents.push('Bicicleta Basica Elétrica');
-        } else if(model == 7) {
-            rents.push('Bicicleta Avançada Elétrica');
-        } else if(model == 8) {
-            rents.push('Bicicleta Profissional Elétrica');
-        } else if(model == 0) {
-            main()
+            value = 20;
+        } else if (model == 3) {
+            value = 35;
+        } else if (model == 4) {
+            value = 40;
+        } else if (model == 5 || 6) {
+            value = 30;
+        } else if (model == 7) {
+            value = 45;
+        } else if (model == 8) {
+            value = 50;
+        } else {
+            console.log("Modelo inválido");
         }
-        if(model !== 0) {
-            console.log(`Sua bike foi alugada com sucesso. O valor foi... ${(value*time)}`);
-    } else if (cash < (value*time)) {
-        console.log("Saldo insuficiente");
-        deposit();
-    };
-        }
+        let time = Number(prompt('Adicione quanto tempo deseja: '));
+        if (cash >= (value*time)){
+            cash = cash - (value*time);
+            if (model == 1) {
+                rents.push('Bicicleta Básica');
+                updateVeichle(1, { status: false });
+            } else if(model == 2) {
+                updateVeichle(2, { status: false });
+            } else if(model == 3) {
+                rents.push('Bicicleta Avançada');
+                updateVeichle(3, { status: false });
+            } else if(model == 4) {
+                rents.push('Bicicleta Profissional');
+                updateVeichle(4, { status: false });
+            } else if(model == 5) {
+                rents.push('Bicicleta Basica Elétrica');
+                updateVeichle(5, { status: false });
+            } else if(model == 6) {
+                rents.push('Bicicleta Basica Elétrica');
+                updateVeichle(6, { status: false });
+            }
+            else if(model == 7) {
+                rents.push('Bicicleta Avançada Elétrica');
+                updateVeichle(7, { status: false });
+            } else if(model == 8) {
+                rents.push('Bicicleta Profissional Elétrica');
+                updateVeichle(8, { status: false });
+            } else if(model == 0) {
+                main()
+            }
+            if(model !== 0) {
+                console.log(`Sua bike foi alugada com sucesso. O valor foi... ${(value*time)}`);
+        } else if (cash < (value*time)) {
+            console.log("Saldo insuficiente");
+            deposit();
+        };
+            }
+    }
 };
 
 function rentScoo() { // Menu de alugar Patinetes
@@ -232,7 +373,7 @@ function rentScoo() { // Menu de alugar Patinetes
     console.log(`
         =========================================
             
-            1 - Patinete Básica 20/h
+            1 - Patinete Básica 20/h 
             2 - Patinete Básica 20/h
             3 - Patinete Avançada 35/h
             4 - Patinete Profissional 40/h
@@ -243,46 +384,64 @@ function rentScoo() { // Menu de alugar Patinetes
            
         ========================================= `);
     model = Number(prompt('Adicione o modelo da bike -> '));
-    if (model == 1 || model == 2) {
-        value = 20;
-    } else if (model == 3) {
-        value = 35;
-    } else if (model == 4) {
-        value = 40;
-    } else if (model == 5 || 6) {
-        value = 30;
-    } else if (model == 7) {
-        value = 45;
-    } else if (model == 8) {
-        value = 50;
+    let disponivel = veiculoDisponivel(model);
+    if (!disponivel) {
+        console.log("Veículo indisponível no momento.");
+        return;
     } else {
-        console.log("Modelo inválido");
-    }
-    let time = Number(prompt('Adicione quanto tempo deseja: '));
-    if (cash >= (value*time)){
-        cash = cash - (value*time);
         if (model == 1 || model == 2) {
-            rents.push('Bicicleta Básica');
-        } else if(model == 3) {
-            rents.push('Bicicleta Avançada');
-        } else if(model == 4) {
-            rents.push('Bicicleta Profissional');
-        } else if(model == 5 || model == 6) {
-            rents.push('Bicicleta Basica Elétrica');
-        } else if(model == 7) {
-            rents.push('Bicicleta Avançada Elétrica');
-        } else if(model == 8) {
-            rents.push('Bicicleta Profissional Elétrica');
-        } else if(model == 0) {
-            main()
+            value = 20;
+        } else if (model == 3) {
+            value = 35;
+        } else if (model == 4) {
+            value = 40;
+        } else if (model == 5 || 6) {
+            value = 30;
+        } else if (model == 7) {
+            value = 45;
+        } else if (model == 8) {
+            value = 50;
+        } else {
+            console.log("Modelo inválido");
         }
-        if(model !== 0) {
-            console.log(`Sua bike foi alugada com sucesso. O valor foi... ${(value*time)}`);
-    } else if (cash < (value*time)) {
-        console.log("Saldo insuficiente");
-        deposit();
-    };
-        }
+        let time = Number(prompt('Adicione quanto tempo deseja: '));
+        if (cash >= (value*time)){
+            cash = cash - (value*time);
+            if (model == 1) {
+                rents.push('Patinete Básica');
+                updateVeichle(1, { status: false });
+            } else if(model == 2) {
+                updateVeichle(2, { status: false });
+            } else if(model == 3) {
+                rents.push('Patinete Avançada');
+                updateVeichle(3, { status: false });
+            } else if(model == 4) {
+                rents.push('Patinete Profissional');
+                updateVeichle(4, { status: false });
+            } else if(model == 5) {
+                rents.push('Patinete Basica Elétrica');
+                updateVeichle(5, { status: false });
+            } else if(model == 6) {
+                rents.push('Patinete Basica Elétrica');
+                updateVeichle(6, { status: false });
+            }
+            else if(model == 7) {
+                rents.push('Patinete Avançada Elétrica');
+                updateVeichle(7, { status: false });
+            } else if(model == 8) {
+                rents.push('Patinete Profissional Elétrica');
+                updateVeichle(8, { status: false });
+            } else if(model == 0) {
+                main()
+            }
+            if(model !== 0) {
+                console.log(`Seu patinete foi alugada com sucesso. O valor foi... ${(value*time)}`);
+        } else if (cash < (value*time)) {
+            console.log("Saldo insuficiente");
+            deposit();
+        };
+            }
+    }
 };
 
 function vehicle() { // Menu de ver veiculos Alugados
@@ -317,7 +476,6 @@ function toRemove() { // Menu para remover Dinheiro
     };
 };
 
-singUp()
 while(i < 1) { // Loop principal
     main()
 };
@@ -327,4 +485,4 @@ console.log(`
     Obrigado por usar nosso sistema, ${nike}!
     Até a próxima!
     =====================
-`); // Mensagem de despedida
+`)
