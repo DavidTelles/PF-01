@@ -23,6 +23,18 @@
             "user": "biro",
             "email": "biel49412@gmail.com",
             "password": "gabriel12"
+        },
+        {
+            "id": 5,
+            "user": "caio",
+            "email": "@",
+            "password": "CIO"
+        },
+        {
+            "id": 6,
+            "user": "jg",
+            "email": "jg@",
+            "password": "12"
         }
     ],
     "veichles": [
@@ -66,7 +78,7 @@
             "type": "bike",
             "model": "basica",
             "eletric": true,
-            "status": true
+            "status": false
         },
         {
             "id": 7,
