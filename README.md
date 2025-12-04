@@ -23,6 +23,33 @@ prompt-sync — para entrada de dados do usuário.
 
 fs (File System) — para manipulação do arquivo bd.json.
 
+## 📂 Estrutura do Projeto
+```bash
+📦 projeto-aluguel-veiculos
+├── 📄 index.js              # Código principal do sistema (CLI)
+├── 📄 bd.json               # Banco de dados local (usuários e veículos)
+├── 📄 package.json          # Configuração do projeto Node.js
+└── 📄 README.md             # Documentação do projeto
+```
+Exemplo de estrutura do bd.json
+
+```bash
+{
+    "users": [
+        {
+            "id": 1,
+            "user": "João",
+            "email": "joao@email.com",
+            "password": "1234"
+        }
+    ],
+    "veichles": [
+        { "id": 1, "tipo": "bicicleta", "status": true },
+        { "id": 2, "tipo": "patinete", "status": true }
+    ]
+}
+```
+
 ## 🚀 Como Executar o Projeto
 
 -> 1. Clonar o repositório <br>
