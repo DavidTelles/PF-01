@@ -1,5 +1,10 @@
-# 🚲 Sistema de Aluguel de Veículos (CLI)
-Este é um sistema de aluguel de bicicletas e patinetes desenvolvido em Node.js, executado diretamente no terminal (CLI).
+![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
+![Replit](https://img.shields.io/badge/Replit-DD1200?style=for-the-badge&logo=Replit&logoColor=white)
+![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+
+# 🚲 Sistema de Aluguel de Veículos (PF)
+Este é um sistema de aluguel de bicicletas e patinetes desenvolvido em Node.js, executado diretamente no terminal (PF).
 O sistema permite criar contas de usuário, fazer login, adicionar saldo (cash), alugar veículos e gerenciar os veículos alugados.
 
 ## 📋 Funcionalidades
@@ -17,16 +22,14 @@ O sistema permite criar contas de usuário, fazer login, adicionar saldo (cash),
 ° Todos os usuários e veículos ficam armazenados no arquivo bd.json.
 
 ## 🛠️ Tecnologias Utilizadas
-Node.js
-
-prompt-sync — para entrada de dados do usuário.
-
+node js <br>
+prompt-sync <br>
 fs (File System) — para manipulação do arquivo bd.json.
 
 ## 📂 Estrutura do Projeto
 ```bash
 📦 projeto-aluguel-veiculos
-├── 📄 index.js              # Código principal do sistema (CLI)
+├── 📄 index.js              # Código principal do sistema (PF)
 ├── 📄 bd.json               # Banco de dados local (usuários e veículos)
 ├── 📄 package.json          # Configuração do projeto Node.js
 └── 📄 README.md             # Documentação do projeto
