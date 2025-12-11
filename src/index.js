@@ -3,8 +3,9 @@ const { sign } = require('crypto');
 const fs = require('fs');
 
 const dbPath = "../bd.json";
+const db = loadDB()
 
-function loadDB() {
+function loadDB() { // Carregar Banco de dados
     try {
         const raw = fs.readFileSync(dbPath, 'utf8');
         return JSON.parse(raw);
@@ -16,7 +17,7 @@ function loadDB() {
     }
 }
 
-function saveDB(db) {
+function saveDB(db) { // Salvar Banco de Dados
     try {
         fs.writeFileSync(dbPath, JSON.stringify(db, null, 4), "utf8");
         console.log(true);
@@ -26,8 +27,7 @@ function saveDB(db) {
     }
 }
 
-function getNextId(collectionName) {
-    const db = loadDB();
+function getNextId(collectionName) { // Pegar o proximo Id
     const values = db[collectionName] || [];
 
     let maxId = 0;
@@ -41,8 +41,8 @@ function getNextId(collectionName) {
     return maxId + 1;
 }
 
-function addUser(user, email, password) {
-    const db = loadDB();
+function addUser(user, email, password) { // Adicionar novo usuário
+    
 
     if(userExists(email, password)) {
         console.log("Usuário ja existe!");
@@ -62,14 +62,14 @@ function addUser(user, email, password) {
     console.log("Usuário criado!")
 }
 
-function userExists(email, password) {
-    const db = loadDB();
+function userExists(password) { // Verifica se o usuário existe
+    
     const users = db.users || [];
 
     for (let i = 0; i < users.length; i++) {
         const u = users[i];
 
-        if(u.email === email || u.password === password) {
+        if(u.password === password) {
             return true;
         } 
     }
@@ -77,8 +77,8 @@ function userExists(email, password) {
     return false
 }
 
-function findUserByEmail(email) {
-    const db = loadDB();
+function findUserByEmail(email) { // Procura o usuário pelo email
+    
     const users = db.users || [];
 
     for (let i = 0; i < users.length; i++) {
@@ -92,30 +92,29 @@ function findUserByEmail(email) {
     return null;
 }
 
-function updateVeichle(id, newData) {
-    const db = loadDB();
-
+function updateVeichle(id, newData) { // Atualiza os status do veiculo
+    
     db.veichles = db.veichles || [];
 
-    const index = db.veichles[id]["status"]  = false;
-
-    if (index === -1) {
+    if (!db.veichles[id]) {
         console.error("Veículo não encontrado com id:", id);
         return false;
     }
 
-    db.veichles[index] = {
-        ...db.veichles[index],
+    db.veichles[id] = {
+        ...db.veichles[id],
         ...newData
     };
 
     saveDB(db);
 
     console.log("Veículo atualizado");
+    return true;
 }
 
-function veiculoDisponivel(id) {
-    const db = loadDB();
+
+function veiculoDisponivel(id) { // Verifica se o veiculo está disponível
+    
 
     db.veichles = db.veichles || [];
 
@@ -136,9 +135,9 @@ var cash = 0;
 var rents = [];
 var acount = false
 
-var nike = prompt(`Seu Usuário -> `);
+var name = prompt(`Seu Usuário -> `);
 
-function singUp() {
+function singUp() { // Criar conta 
     while(true) {
         var email = prompt("Seu E-mail -> ");
         var confirmEmail = prompt("Confirme Seu E-mail -> ");
@@ -174,18 +173,18 @@ function singUp() {
     }
 
     if (userExists(email, password)) {
-        console.log("Já existe um usuário com esse e-mail ou password. Por favor, use outro.");
+        console.log("Já existe um usuário com esse e-mail. Por favor, use outro.");
         return;
     }
 
-    addUser(nike, email, password)
-    saveDB()
+    addUser(name, email, password)
+    saveDB(db)
     acount = true;
 
     main()
 }
 
-function singIn() {
+function singIn() { // Entrar 
     while(true) {
         var email = prompt("Seu E-mail -> ");
     
@@ -219,7 +218,7 @@ function main() { // Menu Principal
     if(acount == true) {
         let first = Number(prompt(`
                 =====================
-                Olá ${nike}! Seu cash é: ${cash}
+                Olá ${name}! Seu cash é: ${cash}
         
                 1 - Alugar veiculo
                 2 - Ver veiculos alugados
@@ -240,7 +239,7 @@ function main() { // Menu Principal
                     toRemove();
             } else if (first == 5) {
                     console.clear();
-                    console.log(`Usuário: ${nike}\nCash: ${cash}\nVeículos Alugados: ${rents}`);
+                    console.log(`Usuário: ${name}\nCash: ${cash}\nVeículos Alugados: ${rents}`);
             } else if(first == 0) {
                     i++;
             }else {
@@ -249,7 +248,7 @@ function main() { // Menu Principal
     } else {
         let first = Number(prompt(`
             =====================
-            Olá ${nike}!
+            Olá ${name}!
     
             1 - Criar conta
             2 - Entrar
@@ -274,7 +273,7 @@ function main() { // Menu Principal
 function rent() { // Menu de Alugar
     let first = Number(prompt(`
         =====================
-        Ola ${nike}! Seu cash é: ${cash}
+        Ola ${name}! Seu cash é: ${cash}
 
         1 - Bicicletas
         2 - Patinetes
@@ -319,7 +318,7 @@ function rentBike() { // Menu de alugar Bicicletas
             value = 35;
         } else if (model == 4) {
             value = 40;
-        } else if (model == 5 || 6) {
+        } else if (model == 5 || model == 6) {
             value = 30;
         } else if (model == 7) {
             value = 45;
@@ -383,23 +382,24 @@ function rentScoo() { // Menu de alugar Patinetes
             8 - Patinete Profissional Elétrica 50/h
            
         ========================================= `);
-    model = Number(prompt('Adicione o modelo da bike -> '));
+    model = Number(prompt('Adicione o modelo do patinete -> '));
+    model + 8
     let disponivel = veiculoDisponivel(model);
     if (!disponivel) {
         console.log("Veículo indisponível no momento.");
         return;
     } else {
-        if (model == 1 || model == 2) {
+        if (model == 9 || model == 10) {
             value = 20;
-        } else if (model == 3) {
+        } else if (model == 11) {
             value = 35;
-        } else if (model == 4) {
+        } else if (model == 12) {
             value = 40;
-        } else if (model == 5 || 6) {
+        } else if (model == 13 || model == 14) {
             value = 30;
-        } else if (model == 7) {
+        } else if (model == 15) {
             value = 45;
-        } else if (model == 8) {
+        } else if (model == 16) {
             value = 50;
         } else {
             console.log("Modelo inválido");
@@ -407,30 +407,30 @@ function rentScoo() { // Menu de alugar Patinetes
         let time = Number(prompt('Adicione quanto tempo deseja: '));
         if (cash >= (value*time)){
             cash = cash - (value*time);
-            if (model == 1) {
+            if (model == 9) {
                 rents.push('Patinete Básica');
-                updateVeichle(1, { status: false });
-            } else if(model == 2) {
-                updateVeichle(2, { status: false });
-            } else if(model == 3) {
+                updateVeichle(9, { status: false });
+            } else if(model == 10) {
+                updateVeichle(10, { status: false });
+            } else if(model == 11) {
                 rents.push('Patinete Avançada');
-                updateVeichle(3, { status: false });
-            } else if(model == 4) {
+                updateVeichle(11, { status: false });
+            } else if(model == 12) {
                 rents.push('Patinete Profissional');
-                updateVeichle(4, { status: false });
-            } else if(model == 5) {
+                updateVeichle(12, { status: false });
+            } else if(model == 13) {
                 rents.push('Patinete Basica Elétrica');
-                updateVeichle(5, { status: false });
-            } else if(model == 6) {
+                updateVeichle(13, { status: false });
+            } else if(model == 14) {
                 rents.push('Patinete Basica Elétrica');
-                updateVeichle(6, { status: false });
+                updateVeichle(14, { status: false });
             }
-            else if(model == 7) {
+            else if(model == 15) {
                 rents.push('Patinete Avançada Elétrica');
-                updateVeichle(7, { status: false });
-            } else if(model == 8) {
+                updateVeichle(15, { status: false });
+            } else if(model == 16) {
                 rents.push('Patinete Profissional Elétrica');
-                updateVeichle(8, { status: false });
+                updateVeichle(16, { status: false });
             } else if(model == 0) {
                 main()
             }
@@ -482,7 +482,7 @@ while(i < 1) { // Loop principal
 
 console.log(`
     =====================
-    Obrigado por usar nosso sistema, ${nike}!
+    Obrigado por usar nosso sistema, ${name}!
     Até a próxima!
     =====================
-`)
+`) // Mensagem de despedida

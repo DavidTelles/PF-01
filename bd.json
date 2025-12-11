@@ -2,39 +2,57 @@
     "users": [
         {
             "id": 1,
-            "user": "Admin",
-            "email": "davidsilvatelles2023@gmail.com",
-            "password": "20111986@"
-        },
-        {
-            "id": 2,
             "user": "Caio",
             "email": "caio@gmail.com",
             "password": "123456789"
         },
         {
-            "id": 3,
+            "id": 2,
             "user": "Luis",
             "email": "luis@gmail.com",
             "password": "123456789"
         },
         {
-            "id": 4,
+            "id": 3,
             "user": "biro",
             "email": "biel49412@gmail.com",
             "password": "gabriel12"
         },
         {
-            "id": 5,
+            "id": 4,
             "user": "caio",
             "email": "@",
             "password": "CIO"
         },
         {
-            "id": 6,
+            "id": 5,
             "user": "jg",
             "email": "jg@",
             "password": "12"
+        },
+        {
+            "id": 6,
+            "user": "shop",
+            "email": "asdfghjkl@",
+            "password": "1234567890"
+        },
+        {
+            "id": 7,
+            "user": "isabela",
+            "email": "iscalhon@gmail.com",
+            "password": "12345"
+        },
+        {
+            "id": 8,
+            "user": "Ryan",
+            "email": "ryan@gmail.com",
+            "password": "R09032010"
+        },
+        {
+            "id": 9,
+            "user": "Xandao",
+            "email": "@x",
+            "password": "x"
         }
     ],
     "veichles": [
@@ -50,14 +68,14 @@
             "type": "bike",
             "model": "basica",
             "eletric": false,
-            "status": false
+            "status": true
         },
         {
             "id": 3,
             "type": "bike",
             "model": "avançada",
             "eletric": false,
-            "status": false
+            "status": true
         },
         {
             "id": 4,
@@ -78,14 +96,14 @@
             "type": "bike",
             "model": "basica",
             "eletric": true,
-            "status": false
+            "status": true
         },
         {
             "id": 7,
             "type": "bike",
             "model": "avançada",
             "eletric": true,
-            "status": false
+            "status": true
         },
         {
             "id": 8,
