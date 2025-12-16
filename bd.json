@@ -59,6 +59,102 @@
             "user": "hlkhb",
             "email": "@s",
             "password": "9876"
+        },
+        {
+            "id": 11,
+            "user": "Miguel",
+            "email": "miguel@gmail.com",
+            "password": "20102008"
+        },
+        {
+            "id": 12,
+            "user": "felipe ",
+            "email": "felipe@gmail.com",
+            "password": "duda"
+        },
+        {
+            "id": 13,
+            "user": "isa",
+            "email": "isa@gmail",
+            "password": "isa122"
+        },
+        {
+            "id": 14,
+            "user": "sorriso",
+            "email": "sorriso@gmail",
+            "password": "cadudeboche"
+        },
+        {
+            "id": 15,
+            "user": "maria felix",
+            "email": "maria@gmail.com",
+            "password": "0000"
+        },
+        {
+            "id": 16,
+            "user": "luquinha ",
+            "email": "lucas@gmail.com",
+            "password": "lucas"
+        },
+        {
+            "id": 17,
+            "user": "mii",
+            "email": "mirela.a.costa@aluno.senai.br",
+            "password": "mimi1509"
+        },
+        {
+            "id": 18,
+            "user": "LI",
+            "email": "slosljjaksd@gmail.com",
+            "password": "oi"
+        },
+        {
+            "id": 19,
+            "user": "lucas letzel",
+            "email": "lucas@gmail.com",
+            "password": "1234"
+        },
+        {
+            "id": 20,
+            "user": "lucas letzel",
+            "email": "lucas@gmail.com",
+            "password": "1234"
+        },
+        {
+            "id": 21,
+            "user": "heizoyamakawa",
+            "email": "ricardofurlan@gmail.com",
+            "password": "1234"
+        },
+        {
+            "id": 22,
+            "user": "Matheus",
+            "email": "matheus.rodolpho16@gmail.com",
+            "password": "sla123"
+        },
+        {
+            "id": 23,
+            "user": "fer12345@gostadepescar",
+            "email": "fer@",
+            "password": ""
+        },
+        {
+            "id": 24,
+            "user": "Pedro leal",
+            "email": "pedroleal@1005",
+            "password": "Pedroleal"
+        },
+        {
+            "id": 25,
+            "user": "babao",
+            "email": "nicopereirapinto@outlook.com",
+            "password": "12345"
+        },
+        {
+            "id": 26,
+            "user": "re",
+            "email": "re@@",
+            "password": "1"
         }
     ],
     "veichles": [
@@ -74,14 +170,14 @@
             "type": "bike",
             "model": "basica",
             "eletric": false,
-            "status": true
+            "status": false
         },
         {
             "id": 3,
             "type": "bike",
             "model": "avançada",
             "eletric": false,
-            "status": true
+            "status": false
         },
         {
             "id": 4,
@@ -95,7 +191,7 @@
             "type": "bike",
             "model": "basica",
             "eletric": true,
-            "status": true
+            "status": false
         },
         {
             "id": 6,
